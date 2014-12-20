@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="ExecuteBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <GlobalRootPath>$(MSBuildProjectDirectory)</GlobalRootPath>
+    <SolutionsPath>$(MSBuildProjectDirectory)\src</SolutionsPath>
+    <SolutionName>Horror.Keymaster</SolutionName>
+    <NugetPackagesPath>$(SolutionsPath)\packages</NugetPackagesPath>
+    <BuildEnvironmentPath>$(MSBuildProjectDirectory)\msbuild</BuildEnvironmentPath>
+    <Configuration>Release</Configuration>
+	
+
+    <!--This property should not changed directly through the file, instead change when running the build script
+    Example:
+    msbuild myproj.proj /p:IsDesktopBuild=false-->
+    <IsDesktopBuild>true</IsDesktopBuild>
+
+    <!-- <AssemblyInfoPath Condition="$(AssemblyInfoPath) == ''">$(GlobalRootPath)\CommonAssemblyProperties</AssemblyInfoPath> -->
+    <WorkingDirectoryPath Condition="$(WorkingDirectoryPath) == ''">$(MSBuildProjectDirectory)\build</WorkingDirectoryPath>
+    <DropsPath Condition="$(DropsPath) == ''">$(WorkingDirectoryPath)\Drops</DropsPath>
+
+    <!--Uncoment according to the tools you want to use-->
+
+    <NUnitRunner>$(NugetPackagesPath)\NUnit.Runners.2.6.3\tools\nunit-console.exe</NUnitRunner>
+    <!-- <MSPecRunner>$(NugetPackagesPath)\Machine.Specifications.0.8.3\tools\mspec-clr4.exe</MSPecRunner> -->
+    <OpenCoverRunner>$(NugetPackagesPath)\OpenCover.4.5.3207\OpenCover.Console.exe</OpenCoverRunner>
+    <ReportGeneratorRunner>$(NugetPackagesPath)\ReportGenerator.1.9.1.0\ReportGenerator.exe</ReportGeneratorRunner>
+    <!--<NugetRunner>$(NugetPackagesPath)\NuGet.CommandLine.1.7.0\tools\NuGet.exe</NugetRunner>-->
+
+
+    <NUnitRunnerWithOpenCoverArguments>/noshadow</NUnitRunnerWithOpenCoverArguments>
+  </PropertyGroup>
+
+
+  <Choose>
+    <When Condition="$(IsDesktopBuild) == 'false'">
+      <!--Externaal runner location when it is not a desktop build-->
+      <PropertyGroup>
+        <GitRunner>C:\Program Files (x86)\Git\bin\git.exe</GitRunner>
+      </PropertyGroup>
+    </When>
+    <When  Condition="$(IsDesktopBuild) == 'true'">
+      <!--Externaal runner location when it is a desktop build-->
+      <PropertyGroup>
+        <GitRunner>C:\Program Files (x86)\Git\bin\git.exe</GitRunner>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <!-- Importing Global properties -->
+  <Import Project="$(BuildEnvironmentPath)\GlobalProperties.import"/>
+
+  <!-- Importing third party tasks -->
+  <Import Project="$(BuildEnvironmentPath)\GlobalTasks.import"/>
+
+  <!-- Importing targets -->
+  <Import Project="$(BuildEnvironmentPath)\GlobalTargets.import"/>
+
+  <Target Name="SettingNUnitTestingAssemblies">
+
+    <ItemGroup>
+      <NUnitAssemblies Include="$(TestAssembliesPath)\*Tests.dll" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CoreSettingInstrumentationAssemblies">
+    <ItemGroup>
+      <AssembliesToInstrument Include="
+                                        $(TestAssembliesPath)\Vestas.ContractProvider.Output.dll;
+										                    $(TestAssembliesPath)\Vestas.ContractManagement.exe;
+										                    $(TestAssembliesPath)\Vestas.ContractProvider.dll;
+                                        $(TestAssembliesPath)\Vestas.ContractManagement.Service.dll;" />
+    </ItemGroup>
+  </Target>
+  
+    <Target Name="PrepareClickOncePackages">
+    <ItemGroup>
+      <ClickOnceProjects Include="$(SolutionsPath)\Vestas.ContractManagement\Vestas.ContractManagement.csproj">
+        <DestinationPath>\\rifile\group\Group_Technology_RD\_Public\ReleaseClass2\SCADA Software\ContractManagement</DestinationPath>
+        <WorkingDirectoryPath>$(WorkingDirectoryPath)\ClickOnceContractManagement</WorkingDirectoryPath>
+        <ExtraProperties></ExtraProperties>
+      </ClickOnceProjects>
+    </ItemGroup>
+  </Target>
+  
+  <Target Name="PrepareFxCop">
+  <ItemGroup>
+  <FxCopTargetAssemblies Include="$(BuildingPath)\Vestas.ContractProvider.Output.dll;
+										$(BuildingPath)\Vestas.ContractManagement.exe;
+										$(BuildingPath)\Vestas.ContractProvider.dll;
+                                        $(BuildingPath)\Vestas.ContractManagement.Service.dll;" />
+  </ItemGroup>
+  </Target>
+  
+  <Target Name="PrepareDistribute">
+    <ItemGroup>
+      <DistributionSourceFiles Include="$(BuildingPath)\*.dll"/>
+      <DistributionSourceFiles Include="$(BuildingPath)\*.exe"/>
+      <DistributionSourceFiles Include="$(BuildingPath)\*.config"/>
+    </ItemGroup>
+	  <PropertyGroup>
+		  <DistributionDestinationFolder>c:\Temp\ContractToolDeployment\</DistributionDestinationFolder>
+	  </PropertyGroup>
+
+  </Target>
+
+
+  <Target Name="PrepareDistributeMail">
+    <ItemGroup>
+      <!-- Specify some recipients -->
+      <Recipient Include="rewso@vestas.com"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+      <SmtpServer>dkrdswiki01</SmtpServer>
+      <MailFrom>norepley@vestas.com</MailFrom>
+      <Username>jira</Username>
+      <Password>jira</Password>
+    </PropertyGroup>
+  </Target>
+  
+  <Target Name="ReleaseLablePrefix">
+    <PropertyGroup>
+      <LabelNamePrefix>Release_</LabelNamePrefix>
+    </PropertyGroup>
+  </Target>
+  
+  <Target Name="BranchLablePrefix">
+    <PropertyGroup>
+      <LabelNamePrefix>Branch_</LabelNamePrefix>
+    </PropertyGroup>    
+  </Target>
+
+
+  <PropertyGroup>
+    <ReleaseBuildDependsOn>
+      ValidateSettings;
+      Clean;
+      CreateArtefactFolders;
+      GetBuildDetails;
+      GetCurrentVersion;
+      ReleaseLablePrefix;
+      CalculateReleaseVersion;
+      CalculateSemanticVersion;
+      UpdateAssemblyVersion;
+      CoreBuild;
+      SettingTestingAssemblies;
+      BeforeRunTests;
+      RunNUnitWithOpenCover;
+      ReportNUnitOpenCoverWithRG;
+      AnalyzeWithFxCop;
+      GitChangeLog;
+      WriteBuildDetails;
+      CommitGit;
+      CreateClickOncePackages;
+      CreateGitTag;
+      CreateGitBranch;
+      DistributeMailRelease
+    </ReleaseBuildDependsOn>
+  </PropertyGroup>
+  
+    <PropertyGroup>
+    <BranchBuildDependsOn>
+	    ValidateSettings;
+	    Clean;
+      CreateArtefactFolders;
+	    GetBuildDetails;
+      GetCurrentVersion;
+      BranchLablePrefix;
+      CalculateBranchVersion;
+      CalculateSemanticVersion;
+      UpdateAssemblyVersion;
+      CoreBuild;
+      SettingTestingAssemblies;
+      BeforeRunTests;
+      RunNUnitWithOpenCover;
+      ReportNUnitOpenCoverWithRG;
+      AnalyzeWithFxCop;
+      GitChangeLog;
+	    WriteBuildDetails;
+      CommitGit;
+      CreateClickOncePackages;
+      CreateGitTag;
+      DistributeMailRelease
+    </BranchBuildDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MyBuildDependsOn>
+	    ValidateSettings;
+	    Clean;
+      CreateArtefactFolders;
+	    GetBuildDetails;
+      CoreBuild;
+      SettingTestingAssemblies;
+      BeforeRunTests;
+      RunNUnitWithOpenCover;
+      ReportNUnitOpenCoverWithRG;
+      AnalyzeWithFxCop;
+      GitChangeLog;
+	    WriteBuildDetails;
+    </MyBuildDependsOn>
+  </PropertyGroup>
+  
+  <Target Name="ExecuteRelease" DependsOnTargets="$(ReleaseBuildDependsOn)">
+    <Message Text="AssemblyFileVersion is $(FileVersion)" />
+    <Message Text="AssemblyInformationalVersion $(InformationalVersion)" />
+    <Message Text="AssemblyVersion: $(SemanticVersion)" />
+	  <Message Text="Git hash $(VersionControlVersionInformation)" />	
+    <!--<OnError ExecuteTargets="OnBuildBreak;" />-->
+  </Target>
+  
+    <Target Name="ExecuteBranch" DependsOnTargets="$(BranchBuildDependsOn)">
+    <Message Text="AssemblyFileVersion is $(FileVersion)" />
+    <Message Text="AssemblyInformationalVersion $(InformationalVersion)" />
+    <Message Text="AssemblyVersion: $(SemanticVersion)" />
+	  <Message Text="Git hash $(VersionControlVersionInformation)" />	
+    <!--<OnError ExecuteTargets="OnBuildBreak;" />-->
+  </Target>
+
+  <Target Name="ExecuteBuild" DependsOnTargets="$(MyBuildDependsOn)">
+    <Message Text="AssemblyFileVersion is $(FileVersion)" />
+    <Message Text="AssemblyInformationalVersion $(InformationalVersion)" />
+    <Message Text="AssemblyVersion: $(SemanticVersion)" />
+	  <Message Text="Git hash $(VersionControlVersionInformation)" />	
+  </Target>
+  
+  <Target Name="CoreCalculateAdditionalVersionInformation" DependsOnTargets="FormatGitRevisionVersion" />
+
+</Project>
