@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <AddGitDependsOn>
+      BeforeAddGit;
+      CoreAddGit;
+      AfterAddGit;
+    </AddGitDependsOn>
+  </PropertyGroup>
+
+  <Target Name="AddGit" DependsOnTargets="$(AddGitDependsOn)" Condition="$(CanCreateLabel) == 'true'"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeAddGit" />
+  <Target Name="AfterAddGit" />
+
+  <Target Name="CoreAddGit">
+
+    <Error Text="The Git runner was not specified" Condition="$(GitRunner) == ''" />
+    <Error Text="The Git runner was not found" Condition="!Exists($(GitRunner))" />
+    <Error Text="The 'GitAddFile' is required to add a file" Condition="$(GitAddFile) == ''" />
+
+    <Exec 
+      Command='"$(GitRunner)" add "$(GitAddFile)"'
+      WorkingDirectory='$(GlobalRootPath)'/>
+    
+  </Target>
+  
+</Project>

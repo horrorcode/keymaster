@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateDistributionMailSettingsDependsOn>
+      BeforeValidateDistributionMailSettings;
+      CoreValidateDistributionMailSettings;
+      AfterValidateDistributionMailSettings;
+    </ValidateDistributionMailSettingsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateDistributionMailSettings" DependsOnTargets="$(ValidateDistributionMailSettingsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeValidateDistributionMailSettings" />
+  <Target Name="AfterValidateDistributionMailSettings" />
+
+  <Target Name="CoreValidateDistributionMailSettings" >
+    <Error Text="SmtpServer is empty" Condition="$(SmtpServer) == ''" />
+    <Error Text="Username is empty" Condition="$(Username) == ''" />
+    <Error Text="Password is empty" Condition="$(Password) == ''" />
+    <Error Text="From is empty" Condition="$(MailFrom) == ''" />
+    <Error Text="MailSubject is empty" Condition="$(MailSubject) == ''" />
+  </Target>
+
+</Project>

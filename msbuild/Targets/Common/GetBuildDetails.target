@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <GetBuildDetailsDependsOn>
+      PrepareBuildDetails;
+      BeforeGetBuildDetails;
+      CoreGetBuildDetails;
+      AfterGetBuildDetails;
+    </GetBuildDetailsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GetBuildDetails" DependsOnTargets="$(GetBuildDetailsDependsOn)" />
+
+  <!-- Can be overrided by the user -->
+  <Target Name="BeforeGetBuildDetails" />
+  <Target Name="AfterGetBuildDetails" />
+
+  <!-- Validate target -->
+  <Target Name="CoreGetBuildDetails">
+    <Error Text="Build info file was not found '$(BuildDetailFilePath)'" Condition="!Exists($(BuildDetailFilePath))" />
+	<MSBuild.ExtensionPack.Xml.XmlFile 
+			TaskAction="ReadElements" 
+			ReadChildrenToMetadata="true" 
+			File="$(BuildDetailFilePath)"
+			XPath="/Build">
+		<Output TaskParameter="Elements" ItemName="BuildInfoFile" />
+	</MSBuild.ExtensionPack.Xml.XmlFile>
+
+	<Message Text="Collecting BuildDate '%(BuildInfoFile.BuildDate)' value from '$(BuildDetailFilePath)'" />
+	<Message Text="Collecting CommitHash '%(BuildInfoFile.CommitHash)' value from '$(BuildDetailFilePath)'" />
+	<Message Text="Collecting Version '%(BuildInfoFile.Version)' value from '$(BuildDetailFilePath)'" />
+  </Target>
+</Project>

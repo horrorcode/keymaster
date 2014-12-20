@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanGitChangeLogArtefactsDependsOn>    
+      BeforeCleanGitChangeLogArtefacts;
+      CoreCleanGitChangeLogArtefacts;
+      AfterCleanGitChangeLogArtefacts;
+    </CleanGitChangeLogArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanGitChangeLogArtefacts" DependsOnTargets="$(CleanGitChangeLogArtefactsDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanGitChangeLogArtefacts" />
+  <Target Name="AfterCleanGitChangeLogArtefacts"  />
+
+  <Target Name="CoreCleanGitChangeLogArtefacts">
+	<Delete Files="$(GitReports)\ChangeLog.html" Condition="Exists('$(GitReports)\ChangeLog.html')" />
+  </Target>
+
+</Project>

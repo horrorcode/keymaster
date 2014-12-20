@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanDistributeMailArtefactsDependsOn>
+      BeforeCleanDistributeMailArtefacts;
+      CoreCleanDistributeMailArtefacts;
+      AfterCleanDistributeMailArtefacts;
+    </CleanDistributeMailArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanDistributeMailArtefacts" DependsOnTargets="$(CleanDistributeMailArtefactsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanDistributeMailArtefacts" />
+  <Target Name="AfterCleanDistributeMailArtefacts" />
+
+  <Target Name="CoreCleanDistributeMailArtefacts">
+    <RemoveDir Directories="$(MailAttachmentFolder)" Condition="Exists($(MailAttachmentFolder))" />
+  </Target>
+  
+</Project>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateDistributionSettingsDependsOn>
+      BeforeValidateDistributionSettings;
+
+      CoreValidateDistributionSettings;
+
+      AfterValidateDistributionSettings;
+    </ValidateDistributionSettingsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateDistributionSettings" DependsOnTargets="$(ValidateDistributionSettingsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeValidateDistributionSettings" />
+  <Target Name="AfterValidateDistributionSettings" />
+
+  <Target Name="CoreValidateDistributionSettings" >
+	  <Error Text="The DistributionSourceFiles do not exists" Condition="@(DistributionSourceFiles) == ''" />
+  </Target>
+  
+</Project>

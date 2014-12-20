@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PrepareFxCopDependsOn>
+      BeforePrepareFxCop;
+      CorePrepareFxCop;
+      AfterPrepareFxCop;
+    </PrepareFxCopDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PrepareFxCop" DependsOnTargets="$(PrepareFxCopDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforePrepareFxCop" />
+  <Target Name="AfterPrepareFxCop" />
+
+  <Target Name="CorePrepareFxCop" />
+  
+</Project>

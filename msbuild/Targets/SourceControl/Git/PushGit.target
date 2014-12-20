@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PushGitDependsOn>
+      BeforePushGit;
+      CorePushGit;
+      AfterPushGit;
+    </PushGitDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PushGit" DependsOnTargets="$(PushGitDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforePushGit" />
+  <Target Name="AfterPushGit" />
+
+  <Target Name="CorePushGit">
+
+    <Error Text="The Git runner was not specified" Condition="$(GitRunner) == ''" />
+    <Error Text="The Git runner was not found" Condition="!Exists($(GitRunner))" />
+
+    <Exec 
+      Command='"$(GitRunner)" push --all'
+      WorkingDirectory='$(GlobalRootPath)'/>
+	  
+	<Exec 
+      Command='"$(GitRunner)" push --tags'
+      WorkingDirectory='$(GlobalRootPath)'/>
+    
+  </Target>
+  
+</Project>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanMSTestArtefactFoldersDependsOn>
+      BeforeCleanMSTestArtefactFolders;
+      CoreCleanMSTestArtefactFolders;
+      AfterCleanMSTestArtefactFolders;
+    </CleanMSTestArtefactFoldersDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanMSTestArtefactFolders" DependsOnTargets="$(CleanMSTestArtefactFoldersDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanMSTestArtefactFolders" />
+  <Target Name="AfterCleanMSTestArtefactFolders" />
+
+  <Target Name="CoreCleanMSTestArtefactFolders" >
+
+    <Error ContinueOnError="false" Text="The MSTest results path was not specified" Condition="$(MSTestResultsPath) == ''" />
+
+    <NCastor.AutoBuilder.Tasks.FileSystem.Folder.RemoveDirectoryWithRetries 
+      RetryCount="$(NumberOfRetriesWhenDeletingFolders)" 
+      ContinueOnError="false" 
+      Directories="$(MSTestResultsPath)" 
+      Condition="Exists($(MSTestResultsPath))" />
+
+    <MSBuild.Community.Tasks.Sleep Milliseconds="$(DelayAfterDeletingFolders)" />
+
+    <Error ContinueOnError="false" Text="There was a problem when cleaning the MSTest reports directory" Condition="Exists($(MSTestResultsPath))" />
+
+  </Target>
+  
+</Project>

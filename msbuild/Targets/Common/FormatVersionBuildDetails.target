@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <FormatVersionBuildDetailsDependsOn>
+      GetBuildDetails;
+      BeforeFormatVersionBuildDetails;
+      CoreFormatVersionBuildDetails;
+      AfterFormatVersionBuildDetails;
+    </FormatVersionBuildDetailsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="FormatVersionBuildDetails" DependsOnTargets="$(FormatVersionBuildDetailsDependsOn)" />
+
+  <!-- Can be overrided by the user -->
+  <Target Name="BeforeFormatVersionBuildDetails" />
+  <Target Name="AfterFormatVersionBuildDetails" />
+
+  <!-- Validate target -->
+  <Target Name="CoreFormatVersionBuildDetails">  
+    <PropertyGroup>
+      <BuildNumber>%(BuildInfoFile.Version)</BuildNumber>
+      <MajorVersion>$(BuildNumber.Split('.')[0])</MajorVersion>
+      <MinorVersion>$(BuildNumber.Split('.')[1])</MinorVersion>
+      <RevisionVersion>$(BuildNumber.Split('.')[2])</RevisionVersion>
+	  <BuildVersion>$(BuildNumber.Split('.')[3])</BuildVersion>
+    </PropertyGroup>
+
+  </Target>
+</Project>

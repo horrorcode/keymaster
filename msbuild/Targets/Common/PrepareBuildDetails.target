@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PrepareBuildDetailsDependsOn>
+      BeforePrepareBuildDetails;
+      CorePrepareBuildDetails;
+      AfterPrepareBuildDetails;
+    </PrepareBuildDetailsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PrepareBuildDetails" DependsOnTargets="$(PrepareBuildDetailsDependsOn)" />
+
+  <!-- Can be overrided by the user -->
+  <Target Name="BeforePrepareBuildDetails" />
+  <Target Name="AfterPrepareBuildDetails" />
+
+  <!-- Validate target -->
+  <Target Name="CorePrepareBuildDetails" />
+  
+</Project>

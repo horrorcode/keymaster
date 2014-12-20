@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <FormatMessageDependsOn>
+      CalculateFullVersion;
+      FormatMessagePrefix;
+      BeforeFormatMessage;
+      CoreFormatMessage;
+      AfterFormatMessage;
+    </FormatMessageDependsOn>
+  </PropertyGroup>
+
+  <Target Name="FormatMessage" DependsOnTargets="$(FormatMessageDependsOn)" Condition="$(CanCreateLabel) == 'true'"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeFormatMessage" />
+  <Target Name="AfterFormatMessage" />
+
+  <Target Name="CoreFormatMessage" >
+
+    <Error Text="The 'FullVersion' is used as part of the tag name, therefore it can not be emty" Condition="$(FullVersion) == ''"/>
+    <Error Text="The 'MessagePrefix' is sued as part of the tag name, therefore it can not be emty" Condition="$(MessagePrefix) == ''"/>
+
+    <Message Text="Calculating the 'MessageContent'"/>
+    <PropertyGroup>
+      <MessageContent>$(MessagePrefix) v: $(FullVersion)</MessageContent>
+    </PropertyGroup>
+    
+  </Target>
+  
+</Project>

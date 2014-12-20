@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateFxCopArtefactsDependsOn>
+      BeforeCreateFxCopArtefacts;
+      CoreCreateFxCopArtefacts;
+      AfterCreateFxCopArtefacts;
+    </CreateFxCopArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateFxCopArtefacts" DependsOnTargets="$(CreateFxCopArtefactsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateFxCopArtefacts" />
+  <Target Name="AfterCreateFxCopArtefacts" />
+
+  <Target Name="CoreCreateFxCopArtefacts" >
+
+    <MakeDir Condition="!Exists($(FxCopArtefactsDirectory))" Directories="$(FxCopArtefactsDirectory)" />    
+    
+  </Target>
+
+</Project>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="Git\CommitGit.target"/>
+  <Import Project="Git\PushGit.target"/>
+  <Import Project="Git\CleanGitArtefacts.target"/>
+  <Import Project="Git\CreateLogGitArtefacts.target"/>
+  <Import Project="Git\PrepearGitChangeLog.target"/>
+  <Import Project="Git\GitChangeLog.target"/>
+  <Import Project="Git\AddGit.target"/>
+  <Import Project="Git\CleanGitChangeLogArtefacts.target"/>
+  
+  
+
+</Project>

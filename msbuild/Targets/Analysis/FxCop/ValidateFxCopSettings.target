@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ValidateFxCopDependsOn>
+      BeforeValidateFxCop;
+      CoreValidateFxCop;
+      AfterValidateFxCop;
+    </ValidateFxCopDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateFxCopSettings" DependsOnTargets="$(ValidateFxCopDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeValidateFxCop" />
+  <Target Name="AfterValidateFxCop" />
+
+  <Target Name="CoreValidateFxCop" >
+
+    <Error
+      ContinueOnError="false"
+      Text="You need to specify the $FxCopCmdPath FxCopCmd.exe path"
+      Condition="$(FxCopCmdPath) == ''" />
+	  
+	<Error
+      ContinueOnError="false"
+      Text="The $FxCopCmdPath FxCopCmd.exe path do not exists"
+      Condition="!Exists($(FxCopCmdPath))"/>
+
+    <Error
+      ContinueOnError="false"
+      Text="You need specify the path to FxCop xsl reporter $FxCopXslPath"
+      Condition="!Exists($(FxCopXslPath))" />
+
+	<Error
+      ContinueOnError="false"
+      Text="The FxCop xsl path do not exists $FxCopXslPath"
+      Condition="!Exists($(FxCopXslPath))" />
+
+	<Error
+      ContinueOnError="false"
+      Text="You need to assign FxCop target assemblies @FxCopTargetAssemblies"
+      Condition="@(FxCopTargetAssemblies) == ''" />
+	  
+	<Error
+      ContinueOnError="false"
+      Text="The FxCopArtefactsDirectory do not exists, current path is '$(FxCopArtefactsDirectory)'"
+      Condition="!Exists($(FxCopArtefactsDirectory))" />
+	  
+	  
+	  
+	  	 
+  </Target>
+
+</Project>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <WriteBuildDetailsDependsOn>
+      PrepareBuildDetails;
+      FormatGitRevisionVersion;
+      BeforeWriteBuildDetails;
+      CoreWriteBuildDetails;
+      AfterWriteBuildDetails;
+    </WriteBuildDetailsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="WriteBuildDetails" DependsOnTargets="$(WriteBuildDetailsDependsOn)" />
+
+  <!-- Can be overrided by the user -->
+  <Target Name="BeforeWriteBuildDetails" />
+  <Target Name="AfterWriteBuildDetails" />
+
+  <!-- Validate target -->
+  <Target Name="CoreWriteBuildDetails">
+
+    <Error Text="Build info file was not found '$(BuildDetailFilePath)'" Condition="!Exists($(BuildDetailFilePath))" />
+    
+	<Message Text="Updating build info file with Version '$(FullVersion)'" />
+		<XmlPoke XmlInputPath="$(BuildDetailFilePath)"
+             Query="/Build/Version"
+             Value="$(FullVersion)"
+			 Condition="Exists('$(BuildDetailFilePath)')" />
+
+	<Message Text="Updating build info file with CommitHash '$(VersionControlVersionInformation)'" />
+		 <XmlPoke XmlInputPath="$(BuildDetailFilePath)"
+             Query="/Build/CommitHash"
+             Value="$(VersionControlVersionInformation)"
+			 Condition="Exists('$(BuildDetailFilePath)')"/>
+
+	<Message Text="Updating build info file with Build date '$([System.DateTime]::Now.ToString(yyyyMMdd-mmss))'" />
+		<XmlPoke XmlInputPath="$(BuildDetailFilePath)"
+             Query="/Build/BuildDate"
+             Value="$([System.DateTime]::Now.ToString(yyyy-MM-dd HH:mm:ss))"
+			 Condition="Exists('$(BuildDetailFilePath)')"/>
+
+
+
+  </Target>
+  
+</Project>

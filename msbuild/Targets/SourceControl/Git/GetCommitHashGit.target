@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <GetCommitHashGitDependsOn>
+      CreateGitArtefacts;
+      CleanGitChangeLogArtefacts;
+      PrepearGetCommitHashGit;
+      BeforeGetCommitHashGit;
+      CoreGetCommitHashGit;
+      AfterGetCommitHashGit;
+    </GetCommitHashGitDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GetCommitHashGit" DependsOnTargets="$(GetCommitHashGitDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeGetCommitHashGit" />
+  <Target Name="AfterGetCommitHashGit"  />
+
+  <Target Name="CoreGetCommitHashGit">
+
+    <Error Text="The Git runner was not specified" Condition="$(GitRunner) == ''" />
+    <Error Text="The Git runner was not found" Condition="!Exists($(GitRunner))" />
+	
+    <Exec
+      Command='"$(GitRunner)" describe log --pretty=format:'%h' -n 1 >> "$(WorkingDirectoryPath)\commithash.txt"'
+      WorkingDirectory='$(GlobalRootPath)'/>
+    <ReadLinesFromFile File="$(WorkingDirectoryPath)\commithash.txt" >
+      <Output ItemName="CommitHash" TaskParameter="Lines"/>
+    </ReadLinesFromFile>
+    <Message Text="Git version from file: @(_GitVersionInfo)" />
+  </Target>
+
+</Project>

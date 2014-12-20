@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateGitArtefactsDependsOn>      
+      BeforeCreateGitArtefacts;
+      CoreCreateGitArtefacts;
+      AfterCreateGitArtefacts;
+    </CreateGitArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateGitArtefacts" DependsOnTargets="$(CreateGitArtefactsDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateGitArtefacts" />
+  <Target Name="AfterCreateGitArtefacts" />
+
+  <Target Name="CoreCreateGitArtefacts">
+    <MakeDir Directories="$(GitReports)" Condition="!Exists($(GitReports))"/>
+  </Target>
+  
+</Project>

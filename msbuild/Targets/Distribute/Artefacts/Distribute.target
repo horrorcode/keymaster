@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <DistributeDependsOn>
+      PrepareDistribute;
+      ValidateDistributionSettings;
+
+      BeforeDistribute;
+      CoreDistribute;
+      AfterDistribute;
+    </DistributeDependsOn>
+  </PropertyGroup>
+
+  <Target Name="Distribute" DependsOnTargets="$(DistributeDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeDistribute" />
+  <Target Name="AfterDistribute" />
+
+  <Target Name="CoreDistribute" >
+    <MakeDir Directories="$(DistributionDestinationFolder)" Condition="!Exists($(DistributionDestinationFolder))" />
+    <Copy SourceFiles="@(DistributionSourceFiles)" DestinationFolder="$(DistributionDestinationFolder)" />
+  </Target>
+
+</Project>

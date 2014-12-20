@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <GitChangeLogDependsOn>
+      CreateGitArtefacts;
+	  CleanGitChangeLogArtefacts;      
+      PrepearGitChangeLog;      
+      BeforeGitChangeLog;
+      CoreGitChangeLog;
+      AfterGitChangeLog;
+    </GitChangeLogDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GitChangeLog" DependsOnTargets="$(GitChangeLogDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeGitChangeLog" />
+  <Target Name="AfterGitChangeLog"  />
+
+  <Target Name="CoreGitChangeLog">
+
+    <Error Text="The Git runner was not specified" Condition="$(GitRunner) == ''" />
+    <Error Text="The Git runner was not found" Condition="!Exists($(GitRunner))" />
+
+	<Vestas.PlantApplications.MsbuildTask.GitLogReport GitExecutable="$(GitRunner)" GitSinceCommitHash="%(BuildInfoFile.CommitHash)" GitReportOutPath="$(GitReports)\ChangeLog.html" GitRepoPath="$(GlobalRootPath)"/>
+
+  </Target>
+
+</Project>

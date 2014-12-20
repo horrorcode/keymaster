@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <AnalyzeWithFxCopDependsOn>
+      CleanFxCopArtefacts;
+      CreateFxCopArtefacts;
+      PrepareFxCop;
+      ValidateFxCopSettings;
+      BeforeAnalyzeWithFxCop;
+      CoreAnalyzeWithFxCop;
+      AfterAnalyzeWithFxCop;
+    </AnalyzeWithFxCopDependsOn>
+  </PropertyGroup>
+
+  <Target Name="AnalyzeWithFxCop" DependsOnTargets="$(AnalyzeWithFxCopDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeAnalyzeWithFxCop" />
+  <Target Name="AfterAnalyzeWithFxCop" />
+
+  <Target Name="CoreAnalyzeWithFxCop">
+	
+	    <!-- Call the task using a collection of files and all default rules -->
+    <MSBuild.ExtensionPack.CodeQuality.FxCop  TaskAction="Analyse"
+										      SearchGac="True"
+                                              ForceOutput="True"
+                                              FxCopPath="$(FxCopCmdPath)"
+                                              Files="@(FxCopTargetAssemblies)"											
+                                              IgnoreGeneratedCode ="True"
+                                              ReportXsl="$(FxCopXslPath)"
+                                              ContinueOnError="WarnAndContinue"
+                                              OutputFile="$(FxCopArtefactsDirectory)\$(SolutionName)_FxCop_$(FullVersion).html">
+      <Output TaskParameter="AnalysisFailed" PropertyName="FxCopResult"/>	 	 
+    </MSBuild.ExtensionPack.CodeQuality.FxCop>
+	
+	<Message Text="FxCop analysis failed with the following result '$(FxCopResult)'" Condition="$(FxCopResult) != ''"/>
+  </Target>  
+</Project>

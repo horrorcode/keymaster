@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateDistributeMailArtefactsDependsOn>
+      BeforeCreateDistributeMailArtefacts;
+      CoreCreateDistributeMailArtefacts;
+      AfterCreateDistributeMailArtefacts;
+    </CreateDistributeMailArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateDistributeMailArtefacts" DependsOnTargets="$(CreateDistributeMailArtefactsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateDistributeMailArtefacts" />
+  <Target Name="AfterCreateDistributeMailArtefacts" />
+
+  <Target Name="CoreCreateDistributeMailArtefacts">
+    <PropertyGroup>
+      <MailAttachmentFolder>$(DropsPath)\MailAttachment</MailAttachmentFolder>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(MailAttachmentFolder)" Condition="!Exists($(MailAttachmentFolder))" />
+
+    <ItemGroup>
+      <DistributeMailReleaseFiles Include="$(DropsPath)\**\*" />
+    </ItemGroup>    
+
+    <Copy SourceFiles="@(DistributeMailReleaseFiles)" DestinationFolder="$(MailAttachmentFolder)\%(RecursiveDir)" />
+    
+
+  </Target>
+  
+</Project>

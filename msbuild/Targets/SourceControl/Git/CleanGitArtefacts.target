@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CleanLogGitArtefactsDependsOn>
+      BeforeCleanLogGitArtefacts;
+      CoreCleanLogGitArtefacts;
+      AfterCleanLogGitArtefacts;
+    </CleanLogGitArtefactsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CleanLogGitArtefacts" DependsOnTargets="$(CleanLogGitArtefactsDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCleanLogGitArtefacts" />
+  <Target Name="AfterCleanLogGitArtefacts" />
+
+  <Target Name="CoreCleanLogGitArtefacts">
+    <RemoveDir Directories="$(GitReports)" Condition="Exists($(GitReports))" />    
+  </Target>
+  
+</Project>

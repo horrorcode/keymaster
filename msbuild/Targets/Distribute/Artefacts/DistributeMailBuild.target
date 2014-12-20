@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <DistributeMailBuildDependsOn>
+      CleanDistributeMailArtefacts;
+      CreateDistributeMailArtefacts;
+      BeforeDistributeMailBuild;
+      CoreDistributeMailBuild;
+      DistributeMail;
+      AfterDistributeMailBuild;
+    </DistributeMailBuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="DistributeMailBuild" DependsOnTargets="$(DistributeMailBuildDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeDistributeMailBuild" />
+  <Target Name="AfterDistributeMailBuild" />
+
+  <Target Name="CoreDistributeMailBuild" >
+    <Error Text="No DistributeMailReleaseFiles is found, make sure that have enabled unit t" Condition="@(DistributeMailReleaseFiles) == ''" />
+    
+    <ItemGroup>      
+      <MailAttachment Include="$(MailAttachmentFolder)\**\*" Exclude="$(MailAttachmentFolder)\**\*.xml"/>
+      <MailBodyFileDictonary Include="!VERSION!:$(FullVersion)"/>
+      <MailBodyFileDictonary Include="!DATE!:$([System.DateTime]::Now.ToString(`yyyy-MM-dd`))"/>
+      <MailBodyFileDictonary Include="!BUILDPC!:$(ComputerName)"/>
+    </ItemGroup>
+
+    <Error Text="The MailAttachment is empty" Condition="@(MailAttachment) == ''" />
+    <Error Text="The MailBodyBuildFile is empty when setting MailBodyFile" Condition="$(MailBodyBuildFile) == '' OR !Exists($(MailBodyBuildFile))" />
+    
+    <PropertyGroup>
+      <BuildPackageFilePath Condition="$(BuildPackageFilePath) == ''">$(DropsPath)\$(PackageName).ReleaseReport.$(Configuration).$(Platform).v$(FullVersion).zip</BuildPackageFilePath>
+      <Content />
+    </PropertyGroup>
+
+
+    <MSBuild.ExtensionPack.Compression.Zip 
+                        TaskAction="Create" 
+                        CompressFiles="@(MailAttachment)" 
+                        ZipFileName="$(BuildPackageFilePath)"
+                        RemoveRoot="$(MailAttachmentFolder)" />
+
+
+
+    <PropertyGroup>      
+      <MailSubject>Build of $(SolutionName) v$(FullVersion)</MailSubject>
+      <MailBodyFile>$(MailBodyBuildFile)</MailBodyFile>      
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Attachment Include="$(BuildPackageFilePath)"/>
+    </ItemGroup>
+  </Target>
+
+</Project>

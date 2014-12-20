@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <FormatLabelNameDependsOn>
+      CalculateFullVersion;
+      FormatLabelNamePrefix;
+      BeforeFormatLabelName;
+      CoreFormatLabelName;
+      AfterFormatLabelName;
+    </FormatLabelNameDependsOn>
+  </PropertyGroup>
+
+  <Target Name="FormatLabelName" DependsOnTargets="$(FormatLabelNameDependsOn)" Condition="$(CanCreateLabel) == 'true'"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeFormatLabelName" />
+  <Target Name="AfterFormatLabelName" />
+
+  <Target Name="CoreFormatLabelName" >
+
+    <Error Text="The 'FullVersion' is used as part of the tag name, therefore it can not be emty" Condition="$(FullVersion) == ''"/>
+    <Error Text="The 'LabelNamePrefix' is sued as part of the tag name, therefore it can not be emty" Condition="$(LabelNamePrefix) == ''"/>
+
+    <Message Text="Calculating the 'LabelName'"/>
+    <PropertyGroup>
+      <LabelName>$(LabelNamePrefix)_$(FullVersion)</LabelName>
+    </PropertyGroup>
+    
+  </Target>
+  
+</Project>

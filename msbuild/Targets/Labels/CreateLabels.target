@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateLabelsDependsOn>
+      BeforeCreateLabels;
+
+      CreateGitTag;
+      CoreCreateLabels;
+
+      AfterCreateLabels;
+    </CreateLabelsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateLabels" DependsOnTargets="$(CreateLabelsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateLabels" />
+  <Target Name="AfterCreateLabels" />
+
+  <Target Name="CoreCreateLabels" />
+  
+</Project>

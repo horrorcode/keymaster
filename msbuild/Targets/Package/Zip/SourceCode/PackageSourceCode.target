@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PackageSourceCodeDependsOn>
+      BeforePackageSourceCode;
+      CorePackageSourceCode;
+      AfterPackageSourceCode;
+    </PackageSourceCodeDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PackageSourceCode" DependsOnTargets="$(PackageSourceCodeDependsOn)" />
+
+  <Target Name="BeforePackageSourceCode" />
+  <Target Name="AfterPackageSourceCode" />
+  
+  <Target Name="CorePackageSourceCode" >
+
+    <PropertyGroup>
+      <SourceCodePackageFilePath Condition="$(SourceCodePackageFilePath) == ''">$(DropsPath)\$(PackageName).Source.v$(FullVersion).zip</SourceCodePackageFilePath>
+    </PropertyGroup>
+
+    <Message Text="Path for the SourceCodePackageFilePath is $(SourceCodePackageFilePath)" />
+
+    <ItemGroup>
+      <_SourceCodeFiles Include="
+                          $(GlobalRootPath)\**\*"
+                        Exclude=" 
+                          $(GlobalRootPath)\**\bin\**;
+                          $(GlobalRootPath)\**\.svn\**;
+                          $(GlobalRootPath)\**\.git\**;
+                          $(GlobalRootPath)\**\Logs\**;
+						              $(GlobalRootPath)\**\Release\**;
+						              $(GlobalRootPath)\**\Debug\**;
+                          $(DropsPath)\**;
+						              $(WorkingDirectoryPath)\**;
+                          $(WorkingDirectoryPath)\*;
+                          $(GlobalRootPath)\**\Logs\**;
+                          $(GlobalRootPath)\**\obj\**;
+                          $(GlobalRootPath)\**\*.suo;
+                          $(GlobalRootPath)\**\*.cache;
+                          $(GlobalRootPath)\**\_ReSharper*\**;
+                          $(GlobalRootPath)\**\*ReSharper*"/>
+    </ItemGroup>
+ 
+	 <MSBuild.ExtensionPack.Compression.Zip 
+							   TaskAction="Create"                                            
+							   CompressionLevel="BestCompression" 
+							   RemoveRoot="$(SolutionsPath)" 
+							   CompressFiles="@(_SourceCodeFiles)" 
+							   ZipFileName="$(SourceCodePackageFilePath)"/>
+
+  </Target>
+
+</Project>

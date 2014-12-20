@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="Artefacts\ValidateDistributionSettings.target"/>     
+  <Import Project="Artefacts\ValidateDistributionMailSettings.target"/>
+  <Import Project="Artefacts\PrepareDistributeMail.target"/>
+  <Import Project="Artefacts\PrepareDistribute.target"/>
+  
+  <Import Project="Artefacts\DistributeMailRelease.target"/>
+  <Import Project="Artefacts\DistributeMailBuild.target"/>
+  
+  <Import Project="Artefacts\DistributeMail.target"/>  
+  <Import Project="Artefacts\DistributeArtefacts.target"/>
+  <Import Project="Artefacts\PrepareDistributeArtefacts.target"/>
+  <Import Project="Artefacts\Distribute.target"/> 
+  
+  <Import Project="Artefacts\CreateDistributeMailArtefacts.target"/> 
+  <Import Project="Artefacts\CleanDistributeMailArtefacts.target"/> 
+  
+</Project>

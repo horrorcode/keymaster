@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CreateGitBranchDependsOn>
+      FormatLabelName;
+      BeforeCreateGitBranch;
+      CoreCreateGitBranch;
+      AfterCreateGitBranch;
+    </CreateGitBranchDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateGitBranch" DependsOnTargets="$(CreateGitBranchDependsOn)" Condition="$(CanCreateLabel) == 'true'"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCreateGitBranch" />
+  <Target Name="AfterCreateGitBranch" />
+
+  <Target Name="CoreCreateGitBranch">
+
+    <Error Text="The Git runner was not specified" Condition="$(GitRunner) == ''" />
+    <Error Text="The Git runner was not found" Condition="!Exists($(GitRunner))" />
+    <Error Text="The 'LabelName' is required to create the Git branch" Condition="$(LabelName) == ''" />
+
+    <PropertyGroup>
+      <_GiBranchResultFilePath>$(WorkingDirectoryPath)\GitBranchResult.txt</_GiBranchResultFilePath>
+    </PropertyGroup>
+
+    <!--Check to see if the tag already exists in the Git repository-->
+    <Message Text=' The git command "$(GitRunner)" show-ref "refs/heads/$(LabelName)"' />
+    
+    <Exec 
+      Command='"$(GitRunner)" show-ref "refs/heads/$(LabelName)" >> "$(_GiBranchResultFilePath)"'
+      WorkingDirectory='$(GlobalRootPath)' IgnoreExitCode='true'/>
+    
+    <ReadLinesFromFile File="$(_GiBranchResultFilePath)">
+      <Output ItemName="_Git_Branchs_Found" TaskParameter="Lines"/>
+    </ReadLinesFromFile>
+    
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount" InputItems1="@(_Git_Branchs_Found)">
+      <Output TaskParameter="ItemCount" PropertyName="_Git_Branchs_Found_Count"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+
+    
+    <MSBuild.Community.Tasks.Time Format="MM.dd.yyyy.HH.mm">
+      <Output TaskParameter="FormattedTime" PropertyName="_Git_Branch_Sufix_Timing" />
+    </MSBuild.Community.Tasks.Time>
+
+    <PropertyGroup Condition="$(_Git_Branchs_Found_Count) != 0">
+      <BranchLabelName>$(LabelName)_date_$(_Git_Branch_Sufix_Timing)</BranchLabelName>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(_Git_Branchs_Found_Count) == 0">
+      <BranchLabelName>$(LabelName)</BranchLabelName>
+    </PropertyGroup>
+
+    <Message Text="Creating the branch : $(BranchLabelName)"/>
+    
+    <Exec 
+      Command='"$(GitRunner)" checkout -b "$(BranchLabelName)"'
+      WorkingDirectory='$(GlobalRootPath)'/>
+    
+  </Target>
+  
+</Project>

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <DistributeMailReleaseDependsOn>
+      CleanDistributeMailArtefacts;
+      CreateDistributeMailArtefacts;
+      BeforeDistributeMailRelease;
+      CoreDistributeMailRelease;
+      AfterDistributeMailRelease;
+
+      DistributeMail;
+    </DistributeMailReleaseDependsOn>
+  </PropertyGroup>
+
+  <Target Name="DistributeMailRelease" DependsOnTargets="$(DistributeMailReleaseDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeDistributeMailRelease" />
+  <Target Name="AfterDistributeMailRelease" />
+
+  <Target Name="CoreDistributeMailRelease" >
+
+    <ItemGroup>
+      <MailAttachment Include="$(MailAttachmentFolder)\**\*" Exclude="$(MailAttachmentFolder)\**\*.xml"/>
+      <MailBodyFileDictonary Include="!VERSION!:$(FullVersion)"/>
+      <MailBodyFileDictonary Include="!DATE!:$([System.DateTime]::Now.ToString(`yyyy-MM-dd`))"/>
+      <MailBodyFileDictonary Include="!BUILDPC!:$(ComputerName)"/>	    
+    </ItemGroup>
+
+    <ItemGroup Condition="$(DistributionDeployPath) != ''">
+      <MailBodyFileDictonary Include="!DEPLOYPATH!:$(DistributionDeployPath)"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="$(DistributionDeployPath) == ''">
+      <MailBodyFileDictonary Include="!DEPLOYPATH!:N/A"/>
+    </ItemGroup>
+    
+    <Error Text="The MailBodyBuildFile is empty when setting MailBodyFile" Condition="$(MailBodyBuildFile) == '' OR !Exists($(MailBodyBuildFile))" />
+
+    <PropertyGroup>
+      <BuildPackageFilePath Condition="$(BuildPackageFilePath) == ''">$(DropsPath)\$(PackageName).ReleaseReport.$(Configuration).$(Platform).v$(FullVersion).zip</BuildPackageFilePath>
+      <Content />
+    </PropertyGroup>
+
+
+    <MSBuild.ExtensionPack.Compression.Zip
+                        TaskAction="Create"
+                        CompressFiles="@(MailAttachment)"
+                        ZipFileName="$(BuildPackageFilePath)"
+                        RemoveRoot="$(MailAttachmentFolder)" />
+
+
+
+    <PropertyGroup>
+      <MailSubject>Release of $(SolutionName) v$(FullVersion)</MailSubject>
+      <MailBodyFile>$(MailBodyReleaseFile)</MailBodyFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Attachment Include="$(BuildPackageFilePath)"/>
+    </ItemGroup>  
+  </Target>
+
+</Project>

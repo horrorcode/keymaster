@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="ValidateSettings.target"/>
+  <Import Project="WriteBuildDetails.target"/>
+  <Import Project="GetBuildDetails.target"/>
+  <Import Project="FormatVersionBuildDetails.target"/>
+  <Import Project="PrepareBuildDetails.target"/>
+  
+</Project>

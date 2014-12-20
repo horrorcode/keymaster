@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <DistributeErrorMailDependsOn>
+      PrepareDistributeErrorMail;
+      ValidateDistributionMailSettings;
+
+      BeforeDistributeErrorMail;
+
+      CoreDistributeErrorMail;
+
+      AfterDistributeErrorMail;
+    </DistributeErrorMailDependsOn>
+  </PropertyGroup>
+
+  <Target Name="DistributeErrorMail" DependsOnTargets="$(DistributeErrorMailDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeDistributeErrorMail" />
+  <Target Name="AfterDistributeErrorMail" />
+
+  <Target Name="CoreDistributeErrorMail" >
+
+    
+    
+    <Message Text="The mail server is '$(SmtpServer)' username is '$(Username)' password is '$(Password)' the attachment is '@(Attachment)'" />
+
+    <Vestas.PlantApplications.MsbuildTask.Email   TaskAction="Send" 
+                                              Subject="$(MailSubject)" 
+                                              SmtpServer="$(SmtpServer)" 
+                                              MailFrom="$(MailFrom)" 
+                                              MailTo="@(Recipient)" 
+                                              Body="$(MailBody)" 
+                                              UserName="$(Username)"
+                                              UserPassword="$(Password)"
+                                              Attachments="@(Attachment)" 
+                                              TemplateFile="$(MailBodyFile)"
+                                              TemplateFileDictionary="@(MailBodyFileDictonary)" 
+                                              Condition="$(MailBodyFile) != '' AND Exists($(MailBodyFile))"/>
+
+    <Vestas.PlantApplications.MsbuildTask.Email   TaskAction="Send"
+                                              Subject="$(MailSubject)"
+                                              SmtpServer="$(SmtpServer)"
+                                              MailFrom="$(MailFrom)"
+                                              MailTo="@(Recipient)"
+                                              UserName="$(Username)"
+                                              UserPassword="$(Password)"
+                                              Attachments="@(Attachment)"                                          
+                                              Condition="$(MailBodyFile) == ''"/>
+  </Target>
+
+</Project>
