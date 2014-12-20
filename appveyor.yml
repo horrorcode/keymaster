@@ -3,10 +3,11 @@
 #---------------------------------#
 
 # version format
-version: 1.0.{build}                 # You can use {branch} to, for example
+version: 1.0.{build}-{branch}
 
-# you can use {branch} name in version format too
-# version: 1.0.{build}-{branch}
+build:
+  project: BuildSolution.proj
+  verbosity: normal
 
 # branches to build
 branches:
@@ -25,4 +26,3 @@ skip_tags: true
 # Skipping commits with particular message or from user
 skip_commits:
   message: /Created.*\.(png|jpg|jpeg|bmp|gif)/       # Regex for matching commit message
-  author: John        # Commit author's username, name, email or regexp maching one of these.
