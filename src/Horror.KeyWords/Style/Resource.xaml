@@ -1,0 +1,99 @@
+﻿<ResourceDictionary x:Class="Horror.Keywords.Resources" 
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Color x:Key="DefaultForegroundColor">#ff37424a</Color>
+  <SolidColorBrush x:Key="DefaultForegroundBrush" Color="{DynamicResource DefaultForegroundColor}" />
+
+  <Color x:Key="DefaultBackgroundColor">#ffeff0ea</Color>
+  <SolidColorBrush x:Key="DefaultBackgroundBrush" Color="{DynamicResource DefaultBackgroundColor}" />
+
+  <Color x:Key="HoverForegroundColor">#ff37424a</Color>
+  <SolidColorBrush x:Key="HoverForegroundBrush" Color="{DynamicResource HoverForegroundColor}" />
+
+  <Color x:Key="HoverBackgroundColor">#fff6f7f0</Color>
+  <SolidColorBrush x:Key="HoverBackgroundBrush" Color="{DynamicResource HoverBackgroundColor}" />
+
+  <Color x:Key="SelectedForegroundColor">#ffffffff</Color>
+  <SolidColorBrush x:Key="SelectedForegroundBrush" Color="{DynamicResource SelectedForegroundColor}" />
+
+  <Color x:Key="SelectedBackgroundColor">#ffe37222</Color>
+  <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="{DynamicResource SelectedBackgroundColor}" />
+
+  <Color x:Key="OpaqueForegroundColor">#ffabadb3</Color>
+  <SolidColorBrush x:Key="OpaqueForegroundBrush" Color="{DynamicResource OpaqueForegroundColor}" />
+
+  <Color x:Key="TitleBackgroundColor">#ff37424a</Color>
+  <SolidColorBrush x:Key="TitleBackgroundBrush" Color="{DynamicResource TitleBackgroundColor}" />
+
+  <Color x:Key="ContentBackgroundColor">#ffffffff</Color>
+  <SolidColorBrush x:Key="ContentBackgroundBrush" Color="{DynamicResource ContentBackgroundColor}" />
+
+  <Color x:Key="ButtonBackgroundColor">#ffe37222</Color>
+  <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{DynamicResource ButtonBackgroundColor}" />
+
+  <Color x:Key="ButtonDisabledBackgroundColor">#ff999999</Color>
+  <SolidColorBrush x:Key="ButtonDisabledBackgroundBrush" Color="{DynamicResource ButtonDisabledBackgroundColor}" />
+
+  <Color x:Key="ButtonForegroundColor">#ffffffff</Color>
+  <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{DynamicResource ButtonForegroundColor}" />
+
+  <Path x:Key="Logo" Data="M688.17102,53.745 C689.35402,49.039 692.36802,46.815 697.56702,46.815 L762.74802,46.815 767.32702,28.483 677.69202,28.483 C659.86702,28.483 648.72102,38.408 643.35102,59.931 L640.06702,73.069 C634.71302,94.605 640.84502,104.765 658.67002,104.765 L696.15602,104.765 C701.85302,104.765 704.57502,107.725 703.39602,112.427 L701.53602,119.849 C700.37002,124.561 696.16602,127.527 690.47602,127.527 L627.28302,127.527 622.69202,145.855 708.60502,145.855 C728.42602,145.855 740.49002,137.189 744.81702,119.849 L751.13502,94.619 C755.46602,77.283 747.70902,68.611 727.89302,68.611 L692.15502,68.611 C686.95202,68.611 685.02602,66.387 686.21102,61.685 z M327.17302,53.745 C328.33902,49.039 331.37102,46.815 336.57102,46.815 L401.75102,46.815 406.31202,28.483 316.69302,28.483 C298.86902,28.483 287.73902,38.408 282.37002,59.931 L279.06902,73.069 C273.69402,94.605 279.83002,104.765 297.66802,104.765 L335.15602,104.765 C340.83702,104.765 343.56302,107.725 342.39802,112.427 L340.54002,119.849 C339.37502,124.561 335.17202,127.527 329.47602,127.527 L266.27202,127.527 261.69602,145.855 347.61402,145.855 C367.42602,145.855 379.48802,137.189 383.82002,119.849 L390.12302,94.619 C394.46502,77.283 386.73002,68.611 366.91002,68.611 L331.15702,68.611 C325.93802,68.611 324.01902,66.387 325.20902,61.685 z M448.14102,115.647 L465.30702,46.816 489.92102,46.816 494.48302,28.483 469.87102,28.483 476.98402,3.5527142E-15 426.56602,24.702 404.56802,112.918 C398.89002,135.704 407.24702,145.856 424.58802,145.856 L469.45402,145.856 474.01202,127.527 455.83402,127.527 C448.15902,127.527 445.74102,125.302 448.14102,115.647 M68.200017,145.856 L157.67702,3.794 133.50002,3.794 64.786017,116.857 64.556017,116.857 50.361017,3.794 1.6601562E-05,3.794 19.780017,145.856 z M220.92202,54.487 L213.20802,85.416 178.63502,85.416 186.15802,55.223 C187.68502,49.038 189.99002,46.816 195.67402,46.816 L213.67202,46.816 C219.37002,46.816 222.09402,49.781 220.92202,54.487 M242.43902,28.483 L177.77502,28.483 C157.96902,28.483 146.15702,38.14 140.78502,59.676 L127.08702,114.656 C121.71702,136.19 128.70802,145.856 148.51602,145.856 L242.39102,145.856 246.97202,127.527 177.30502,127.527 C171.60902,127.527 168.88402,124.562 170.05402,119.849 L174.05202,103.758 252.90102,103.758 263.87702,59.676 C269.24402,38.14 262.24102,28.483 242.43902,28.483 M563.69302,127.527 L538.29502,127.527 C532.59202,127.527 529.85302,124.562 531.04002,119.849 L537.34102,94.619 C538.51102,89.913 542.72602,86.952 548.40702,86.952 L573.80502,86.952 z M603.43702,28.483 L513.57102,28.483 509.00502,46.816 574.67202,46.816 C580.37002,46.816 583.09002,49.781 581.91302,54.494 L578.37802,68.612 529.27902,68.612 C509.47602,68.612 497.39902,77.275 493.08002,94.619 L486.75002,119.849 C482.43102,137.19 490.17502,145.856 509.99002,145.856 L603.38002,145.856 624.88702,59.677 C630.26202,38.14 623.25602,28.483 603.43702,28.483 M773.90102,120.841 L769.56702,120.841 769.56702,128.041 773.85102,128.041 C776.73202,128.041 777.88302,126.222 777.88302,124.449 777.88302,122.667 776.77702,120.841 773.90102,120.841 M776.54502,129.875 L780.00102,137.413 777.39902,137.413 774.22302,130.349 773.85102,130.349 769.56702,130.349 769.56702,137.413 767.32802,137.413 767.32802,118.535 773.90102,118.535 C778.06802,118.535 780.18702,121.38 780.18702,124.503 780.18702,126.852 778.94102,128.973 776.54502,129.875 M773.13002,112.459 C764.54002,112.459 757.81402,119.45 757.81402,128.091 757.81402,136.739 764.54002,143.698 773.13002,143.698 781.71302,143.698 788.45302,136.739 788.45302,128.091 788.45302,119.45 781.71302,112.459 773.13002,112.459 M773.13002,145.856 C763.34002,145.856 755.51002,137.894 755.51002,128.091 755.51002,118.31 763.34002,110.336 773.13002,110.336 782.91002,110.336 790.75402,118.31 790.75402,128.091 790.75402,137.894 782.91002,145.856 773.13002,145.856" Fill="#FFffffff" Stretch="Uniform" />
+
+  <FontFamily x:Key="FontBold">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Bold</FontFamily>
+  <FontFamily x:Key="FontBook">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Book</FontFamily>
+  <FontFamily x:Key="FontExtrabold">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Extrabold</FontFamily>
+  <FontFamily x:Key="FontHeadline">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Headline</FontFamily>
+  <FontFamily x:Key="FontHeavy">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Heavy</FontFamily>
+  <FontFamily x:Key="FontLight">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Light</FontFamily>
+  <FontFamily x:Key="FontMedium">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Medium</FontFamily>
+  <FontFamily x:Key="FontSemibold">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Semibold</FontFamily>
+  <FontFamily x:Key="FontStandard">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Standard</FontFamily>
+  <FontFamily x:Key="FontThin">pack://application:,,,/Vestas.VestasOnline.Client.Common;component/Themes/Fonts/#Vestas Sans Thin</FontFamily>
+
+
+  <Style TargetType="{x:Type TextBlock}">
+    <Setter Property="FontFamily" Value="{StaticResource FontStandard}" />
+    <Setter Property="FontSize" Value="14" />
+  </Style>
+
+
+
+  <Style TargetType="{x:Type ContextMenu}">
+    <Setter Property="SnapsToDevicePixels"
+          Value="True" />
+    <Setter Property="OverridesDefaultStyle"
+          Value="True" />
+    <Setter Property="Grid.IsSharedSizeScope"
+          Value="true" />
+    <Setter Property="HasDropShadow"
+          Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ContextMenu}">
+          <Border x:Name="Border"
+                Background="{StaticResource DefaultBackgroundBrush}"
+                BorderThickness="1">
+            <Border.BorderBrush>
+              <SolidColorBrush Color="{StaticResource ContentBackgroundColor}" />
+            </Border.BorderBrush>
+            <StackPanel IsItemsHost="True"
+                      KeyboardNavigation.DirectionalNavigation="Cycle" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="HasDropShadow"
+                   Value="true">
+              <Setter TargetName="Border"
+                    Property="Padding"
+                    Value="0,3,0,3" />
+              <Setter TargetName="Border"
+                    Property="CornerRadius"
+                    Value="4" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>
