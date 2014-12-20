@@ -1,0 +1,23 @@
+﻿<Window x:Class="Horror.Keywords.View.MagicWordlistWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Horror.Keywords"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Title="MagicWordlistWindow" >
+    <Grid>
+    <ListView ItemsSource="{Binding q}">
+      <ListView.View>
+        <GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Keyword information">
+          <i:Interaction.Behaviors>
+            <local:EventToCommandBehavior Event="KeyDown" Command="{Binding EditKeyDownCommand}" PassArguments="True" />
+            <local:EventToCommandBehavior Event="DoubleClick" Command="{Binding EditDoubleClickCommand}" PassArguments="True" />
+          </i:Interaction.Behaviors>
+          
+          <GridViewColumn DisplayMemberBinding="{Binding Path=FirstName}" Header="Alias" Width="100"/>
+          <GridViewColumn DisplayMemberBinding="{Binding Path=LastName}" Header="Comment" Width="Auto" />
+        </GridView>
+      </ListView.View>
+    </ListView>
+  </Grid>
+</Window>
