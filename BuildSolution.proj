@@ -57,7 +57,6 @@
   <Import Project="$(BuildEnvironmentPath)\GlobalTargets.import"/>
 
   <Target Name="SettingNUnitTestingAssemblies">
-
     <ItemGroup>
       <NUnitAssemblies Include="$(TestAssembliesPath)\*Tests.dll" />
     </ItemGroup>
@@ -65,140 +64,29 @@
 
   <Target Name="CoreSettingInstrumentationAssemblies">
     <ItemGroup>
-      <AssembliesToInstrument Include="
-                                        $(TestAssembliesPath)\Vestas.ContractProvider.Output.dll;
-										                    $(TestAssembliesPath)\Vestas.ContractManagement.exe;
-										                    $(TestAssembliesPath)\Vestas.ContractProvider.dll;
-                                        $(TestAssembliesPath)\Vestas.ContractManagement.Service.dll;" />
-    </ItemGroup>
-  </Target>
-  
-    <Target Name="PrepareClickOncePackages">
-    <ItemGroup>
-      <ClickOnceProjects Include="$(SolutionsPath)\Vestas.ContractManagement\Vestas.ContractManagement.csproj">
-        <DestinationPath>\\rifile\group\Group_Technology_RD\_Public\ReleaseClass2\SCADA Software\ContractManagement</DestinationPath>
-        <WorkingDirectoryPath>$(WorkingDirectoryPath)\ClickOnceContractManagement</WorkingDirectoryPath>
-        <ExtraProperties></ExtraProperties>
-      </ClickOnceProjects>
+      <AssembliesToInstrument Include="$(TestAssembliesPath)\*Keymaster.dll;"
+							  Exclude="$(TestAssembliesPath)\*Test.dll;" />
     </ItemGroup>
   </Target>
   
   <Target Name="PrepareFxCop">
   <ItemGroup>
-  <FxCopTargetAssemblies Include="$(BuildingPath)\Vestas.ContractProvider.Output.dll;
-										$(BuildingPath)\Vestas.ContractManagement.exe;
-										$(BuildingPath)\Vestas.ContractProvider.dll;
-                                        $(BuildingPath)\Vestas.ContractManagement.Service.dll;" />
+	<FxCopTargetAssemblies Include="$(BuildingPath)\*Keymaster.dll;" Exclude="$(BuildingPath)\*Test.dll" />
   </ItemGroup>
   </Target>
-  
-  <Target Name="PrepareDistribute">
-    <ItemGroup>
-      <DistributionSourceFiles Include="$(BuildingPath)\*.dll"/>
-      <DistributionSourceFiles Include="$(BuildingPath)\*.exe"/>
-      <DistributionSourceFiles Include="$(BuildingPath)\*.config"/>
-    </ItemGroup>
-	  <PropertyGroup>
-		  <DistributionDestinationFolder>c:\Temp\ContractToolDeployment\</DistributionDestinationFolder>
-	  </PropertyGroup>
-
-  </Target>
-
-
-  <Target Name="PrepareDistributeMail">
-    <ItemGroup>
-      <!-- Specify some recipients -->
-      <Recipient Include="rewso@vestas.com"/>
-    </ItemGroup>
-
-    <PropertyGroup>
-      <SmtpServer>dkrdswiki01</SmtpServer>
-      <MailFrom>norepley@vestas.com</MailFrom>
-      <Username>jira</Username>
-      <Password>jira</Password>
-    </PropertyGroup>
-  </Target>
-  
-  <Target Name="ReleaseLablePrefix">
-    <PropertyGroup>
-      <LabelNamePrefix>Release_</LabelNamePrefix>
-    </PropertyGroup>
-  </Target>
-  
-  <Target Name="BranchLablePrefix">
-    <PropertyGroup>
-      <LabelNamePrefix>Branch_</LabelNamePrefix>
-    </PropertyGroup>    
-  </Target>
-
-
-  <PropertyGroup>
-    <ReleaseBuildDependsOn>
-      ValidateSettings;
-      Clean;
-      CreateArtefactFolders;
-      GetBuildDetails;
-      GetCurrentVersion;
-      ReleaseLablePrefix;
-      CalculateReleaseVersion;
-      CalculateSemanticVersion;
-      UpdateAssemblyVersion;
-      CoreBuild;
-      SettingTestingAssemblies;
-      BeforeRunTests;
-      RunNUnitWithOpenCover;
-      ReportNUnitOpenCoverWithRG;
-      AnalyzeWithFxCop;
-      GitChangeLog;
-      WriteBuildDetails;
-      CommitGit;
-      CreateClickOncePackages;
-      CreateGitTag;
-      CreateGitBranch;
-      DistributeMailRelease
-    </ReleaseBuildDependsOn>
-  </PropertyGroup>
-  
-    <PropertyGroup>
-    <BranchBuildDependsOn>
-	    ValidateSettings;
-	    Clean;
-      CreateArtefactFolders;
-	    GetBuildDetails;
-      GetCurrentVersion;
-      BranchLablePrefix;
-      CalculateBranchVersion;
-      CalculateSemanticVersion;
-      UpdateAssemblyVersion;
-      CoreBuild;
-      SettingTestingAssemblies;
-      BeforeRunTests;
-      RunNUnitWithOpenCover;
-      ReportNUnitOpenCoverWithRG;
-      AnalyzeWithFxCop;
-      GitChangeLog;
-	    WriteBuildDetails;
-      CommitGit;
-      CreateClickOncePackages;
-      CreateGitTag;
-      DistributeMailRelease
-    </BranchBuildDependsOn>
-  </PropertyGroup>
 
   <PropertyGroup>
     <MyBuildDependsOn>
-	    ValidateSettings;
-	    Clean;
+	  ValidateSettings;
+	  Clean;
       CreateArtefactFolders;
-	    GetBuildDetails;
+	  GetBuildDetails;
       CoreBuild;
       SettingTestingAssemblies;
       BeforeRunTests;
       RunNUnitWithOpenCover;
       ReportNUnitOpenCoverWithRG;
       AnalyzeWithFxCop;
-      GitChangeLog;
-	    WriteBuildDetails;
     </MyBuildDependsOn>
   </PropertyGroup>
   
