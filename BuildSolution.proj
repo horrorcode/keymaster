@@ -14,20 +14,11 @@
     Example:
     msbuild myproj.proj /p:IsDesktopBuild=false-->
     <IsDesktopBuild>true</IsDesktopBuild>
-
-    <!-- <AssemblyInfoPath Condition="$(AssemblyInfoPath) == ''">$(GlobalRootPath)\CommonAssemblyProperties</AssemblyInfoPath> -->
     <WorkingDirectoryPath Condition="$(WorkingDirectoryPath) == ''">$(MSBuildProjectDirectory)\build</WorkingDirectoryPath>
     <DropsPath Condition="$(DropsPath) == ''">$(WorkingDirectoryPath)\Drops</DropsPath>
-
-    <!--Uncoment according to the tools you want to use-->
-
-    <NUnitRunner>$(NugetPackagesPath)\NUnit.Runners.2.6.3\tools\nunit-console.exe</NUnitRunner>
-    <!-- <MSPecRunner>$(NugetPackagesPath)\Machine.Specifications.0.8.3\tools\mspec-clr4.exe</MSPecRunner> -->
-    <OpenCoverRunner>$(NugetPackagesPath)\OpenCover.4.5.3207\OpenCover.Console.exe</OpenCoverRunner>
-    <ReportGeneratorRunner>$(NugetPackagesPath)\ReportGenerator.1.9.1.0\ReportGenerator.exe</ReportGeneratorRunner>
-    <!--<NugetRunner>$(NugetPackagesPath)\NuGet.CommandLine.1.7.0\tools\NuGet.exe</NugetRunner>-->
-
-
+    <NUnitRunner>$(NugetPackagesPath)\NUnit.Runners.2.6.4\tools\nunit-console.exe</NUnitRunner>
+    <OpenCoverRunner>$(NugetPackagesPath)\OpenCover.4.5.3427\OpenCover.Console.exe</OpenCoverRunner>
+    <ReportGeneratorRunner>$(NugetPackagesPath)\ReportGenerator.2.0.2.0\ReportGenerator.exe</ReportGeneratorRunner>
     <NUnitRunnerWithOpenCoverArguments>/noshadow</NUnitRunnerWithOpenCoverArguments>
   </PropertyGroup>
 
@@ -36,13 +27,12 @@
     <When Condition="$(IsDesktopBuild) == 'false'">
       <!--Externaal runner location when it is not a desktop build-->
       <PropertyGroup>
-        <GitRunner>C:\Program Files (x86)\Git\bin\git.exe</GitRunner>
+        
       </PropertyGroup>
     </When>
     <When  Condition="$(IsDesktopBuild) == 'true'">
       <!--Externaal runner location when it is a desktop build-->
       <PropertyGroup>
-        <GitRunner>C:\Program Files (x86)\Git\bin\git.exe</GitRunner>
       </PropertyGroup>
     </When>
   </Choose>
@@ -64,48 +54,31 @@
 
   <Target Name="CoreSettingInstrumentationAssemblies">
     <ItemGroup>
-      <AssembliesToInstrument Include="$(TestAssembliesPath)\*Keymaster.dll;"
-							  Exclude="$(TestAssembliesPath)\*Test.dll;" />
+      <AssembliesToInstrument Include="$(TestAssembliesPath)\Horror.Keywords.exe" />
     </ItemGroup>
   </Target>
   
   <Target Name="PrepareFxCop">
-  <ItemGroup>
-	<FxCopTargetAssemblies Include="$(BuildingPath)\*Keymaster.dll;" Exclude="$(BuildingPath)\*Test.dll" />
-  </ItemGroup>
+    <ItemGroup>
+	    <FxCopTargetAssemblies Include="$(BuildingPath)\Horror.Keywords.exe" Exclude="$(BuildingPath)\*Test.dll" />
+    </ItemGroup>
   </Target>
 
   <PropertyGroup>
     <MyBuildDependsOn>
-	  ValidateSettings;
-	  Clean;
+      ValidateSettings;
+      Clean;
       CreateArtefactFolders;
-	  GetBuildDetails;
       CoreBuild;
       SettingTestingAssemblies;
-      BeforeRunTests;
+      CoreSettingInstrumentationAssemblies;
+      RunNUnitTests;
       RunNUnitWithOpenCover;
-      ReportNUnitOpenCoverWithRG;
-      AnalyzeWithFxCop;
+      <!--ReportNUnitOpenCoverWithRG;
+      AnalyzeWithFxCop;-->
     </MyBuildDependsOn>
   </PropertyGroup>
   
-  <Target Name="ExecuteRelease" DependsOnTargets="$(ReleaseBuildDependsOn)">
-    <Message Text="AssemblyFileVersion is $(FileVersion)" />
-    <Message Text="AssemblyInformationalVersion $(InformationalVersion)" />
-    <Message Text="AssemblyVersion: $(SemanticVersion)" />
-	  <Message Text="Git hash $(VersionControlVersionInformation)" />	
-    <!--<OnError ExecuteTargets="OnBuildBreak;" />-->
-  </Target>
-  
-    <Target Name="ExecuteBranch" DependsOnTargets="$(BranchBuildDependsOn)">
-    <Message Text="AssemblyFileVersion is $(FileVersion)" />
-    <Message Text="AssemblyInformationalVersion $(InformationalVersion)" />
-    <Message Text="AssemblyVersion: $(SemanticVersion)" />
-	  <Message Text="Git hash $(VersionControlVersionInformation)" />	
-    <!--<OnError ExecuteTargets="OnBuildBreak;" />-->
-  </Target>
-
   <Target Name="ExecuteBuild" DependsOnTargets="$(MyBuildDependsOn)">
     <Message Text="AssemblyFileVersion is $(FileVersion)" />
     <Message Text="AssemblyInformationalVersion $(InformationalVersion)" />

@@ -1,4 +1,24 @@
-﻿namespace Horror.Keywords
+﻿// <copyright file="App.xaml.cs" company="Horror">
+// Copyright (c) 2014 Open source under MIT License
+// </copyright>
+// <author>rewso</author>
+// <date>2014-12-20 05:53</date>
+// <summary>Class for Horror.Keywords</summary>
+
+// <copyright file="App.xaml.cs" company="Horror">
+// Copyright (c) 2014 Open source under MIT License
+// </copyright>
+// <author>rewso</author>
+// <date>2014-12-20 05:53</date>
+// <summary>Class for Horror.Keywords</summary>
+
+// <copyright file="App.xaml.cs" company="Vestas">
+// Copyright (c) 2014  License
+// </copyright>
+// <author>rewso</author>
+// <date>2014-12-20 05:53</date>
+// <summary>Class for Horror.Keywords</summary>
+namespace Horror.Keywords
 {
   using System;
   using System.Collections.Generic;

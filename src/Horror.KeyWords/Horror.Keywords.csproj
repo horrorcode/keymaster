@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\GlobalAssembly.cs">
+      <Link>GlobalAssembly.cs</Link>
+    </Compile>
     <Compile Include="Common\EventToCommandBehavior.cs" />
     <Compile Include="Controls\HorrorComboBox.cs" />
     <Compile Include="Converter\BoleanToVisibilityConverter.cs" />
@@ -158,6 +161,7 @@
       <LastGenOutput>Horror.Keyword.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="Horror.KeyWords.licenseheader" />
     <None Include="keywordKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

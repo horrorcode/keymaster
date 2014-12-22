@@ -1,16 +1,17 @@
 ﻿namespace Horror.Keywords.Tests
 {
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using NUnit.Framework;
   using System;
   using System.Collections.Generic;
   using System.Linq;
-  [TestClass()]
+
+  [TestFixture]
   public class ServiceLocatorTests
   {
     private const string MyConst = "ConstString";
     #region Public Methods
 
-    [TestMethod()]
+    [Test()]
     public void RegisterTest()
     {
 
@@ -18,7 +19,7 @@
       Assert.AreEqual(1, ServiceLocator.Resolve<int>());
     }
 
-    [TestMethod()]
+    [Test()]
     public void ResolveTest()
     {
 
@@ -26,7 +27,7 @@
       Assert.AreEqual(MyConst, ServiceLocator.Resolve<string>());
     }
 
-    [TestMethod()]
+    [Test()]
     [ExpectedException(typeof(ApplicationException))]
     public void DuplicateTest()
     {
