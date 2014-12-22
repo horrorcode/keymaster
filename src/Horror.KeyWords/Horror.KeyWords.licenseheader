@@ -1,0 +1,33 @@
+extensions: designer.cs generated.cs
+extensions: .cs .cpp .h
+// <copyright file="%FileName%" company="Horror">
+// Copyright (c) %CurrentYear% Open source under MIT License
+// </copyright>
+// <author>%UserName%</author>
+// <date>%CreationYear%-%CreationMonth%-%CreationDay% %CreationTime%</date>
+// <summary>Class for %Project%</summary>
+extensions: .aspx .ascx
+<%-- 
+<copyright file="%FileName%" company="Horror">
+Copyright (c) %CurrentYear%  Open source under MIT License
+</copyright>
+<author>%UserName%</author>
+<date>%CreationYear%-%CreationMonth%-%CreationDay% %CreationTime%</date>
+<summary>Class for %Project%</summary>
+--%>
+extensions: .vb
+' <copyright file="%FileName%" company="Horror">
+' Copyright (c) %CurrentYear% Open source under MIT License
+' </copyright>
+' <author>%UserName%</author>
+' <date>%CreationYear%-%CreationMonth%-%CreationDay% %CreationTime%</date>
+' <summary>Class for %Project%</summary>
+extensions:  .xml .config .xsd
+<!--
+<copyright file="%FileName%" company="Horror">
+Copyright (c) %CurrentYear% Open source under MIT License
+</copyright>
+<author>%UserName%</author>
+<date>%CreationYear%-%CreationMonth%-%CreationDay% %CreationTime%</date>
+<summary>Class for %Project%</summary>
+-->
