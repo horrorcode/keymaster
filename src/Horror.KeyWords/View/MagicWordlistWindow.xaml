@@ -9,10 +9,10 @@
     <ListView ItemsSource="{Binding q}">
       <ListView.View>
         <GridView AllowsColumnReorder="False" ColumnHeaderToolTip="Keyword information">
-          <i:Interaction.Behaviors>
+          <!--<i:Interaction.Behaviors>
             <local:EventToCommandBehavior Event="KeyDown" Command="{Binding EditKeyDownCommand}" PassArguments="True" />
             <local:EventToCommandBehavior Event="DoubleClick" Command="{Binding EditDoubleClickCommand}" PassArguments="True" />
-          </i:Interaction.Behaviors>
+          </i:Interaction.Behaviors>-->
           
           <GridViewColumn DisplayMemberBinding="{Binding Path=FirstName}" Header="Alias" Width="100"/>
           <GridViewColumn DisplayMemberBinding="{Binding Path=LastName}" Header="Comment" Width="Auto" />

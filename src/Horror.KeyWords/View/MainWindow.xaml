@@ -55,9 +55,9 @@
           </ContextMenu>
         </ComboBox.ContextMenu>
         
-        <i:Interaction.Behaviors>
+        <!--<i:Interaction.Behaviors>
           <local:EventToCommandBehavior Event="KeyDown" Command="{Binding RunCommand}" PassArguments="True" />
-        </i:Interaction.Behaviors>
+        </i:Interaction.Behaviors>-->
         
         <ComboBox.Resources>
           <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
