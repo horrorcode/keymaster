@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <FormatTFSRevisionVersionDependsOn>
+      GetTFSRevisionVersion;
+      BeforeFormatTFSRevisionVersion;
+      CoreFormatTFSRevisionVersion;
+      AfterFormatTFSRevisionVersion;
+    </FormatTFSRevisionVersionDependsOn>
+  </PropertyGroup>
+
+  <Target Name="FormatTFSRevisionVersion" DependsOnTargets="$(FormatTFSRevisionVersionDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeFormatTFSRevisionVersion" />
+  <Target Name="AfterFormatTFSRevisionVersion" />
+
+  <Target Name="CoreFormatTFSRevisionVersion" >
+
+    <PropertyGroup Condition="$(TFSRevisionVersion) != ''">
+      <AdditionalVersionInformation>.build.$(BuildVersion).tfs.$(TFSRevisionVersion)</AdditionalVersionInformation>
+    </PropertyGroup>
+
+	<PropertyGroup>
+      <VersionControlVersionInformation>$(TFSRevisionVersion)</VersionControlVersionInformation>
+    </PropertyGroup>
+
+	
+  </Target>
+  
+</Project>

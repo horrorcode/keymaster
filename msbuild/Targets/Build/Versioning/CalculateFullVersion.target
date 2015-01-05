@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CalculateFullVersionDependsOn>
+      ValidateVersioningProperties;
+      BeforeCalculateFullVersion;
+      CoreCalculateFullVersion;
+      AfterCalculateFullVersion;
+    </CalculateFullVersionDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CalculateFullVersion" DependsOnTargets="$(CalculateFullVersionDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCalculateFullVersion" />
+  <Target Name="AfterCalculateFullVersion" />
+
+  <Target Name="CoreCalculateFullVersion">
+
+    <PropertyGroup>
+      <FullVersion>$(MajorVersion).$(MinorVersion).$(RevisionVersion).$(BuildVersion)</FullVersion>
+    </PropertyGroup>
+
+	<Message Text="The calculated FullVersion is now $(FullVersion)" />
+  </Target>
+
+</Project>

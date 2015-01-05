@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CalculateReleaseServiceVersionDependsOn>      
+      ValidateVersioningProperties;
+      BeforeCalculateReleaseServiceVersion;
+      CoreCalculateReleaseServiceVersion;
+      AfterCalculateReleaseServiceVersion;
+    </CalculateReleaseServiceVersionDependsOn>
+	<ReleaseType>Main release</ReleaseType>
+  </PropertyGroup>
+
+  <Target Name="CalculateReleaseServiceVersion" DependsOnTargets="$(CalculateReleaseServiceVersionDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCalculateReleaseServiceVersion" />
+  <Target Name="AfterCalculateReleaseServiceVersion" />
+
+  <Target Name="CoreCalculateReleaseServiceVersion" >
+  
+	<PropertyGroup>
+		<OldVersion>$(RevisionVersion)</OldVersion>
+		<BuildVersion>0</BuildVersion>
+	</PropertyGroup>
+  
+	<MSBuild.ExtensionPack.Science.Maths TaskAction="Add" Numbers="$(RevisionVersion);1">
+		<Output PropertyName="RevisionVersion" TaskParameter="Result"/>
+	</MSBuild.ExtensionPack.Science.Maths>				
+	
+	<Message Text="Old RevisionVersion '$(OldVersion)' new RevisionVersion '$(RevisionVersion)'" />
+
+  </Target>
+</Project>

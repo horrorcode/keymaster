@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <GetCurrentVersionDependsOn>
+      GetGlobalAssemblyInfoFile;
+      BeforeGetCurrentVersion;
+      CoreGetCurrentVersion;
+      AfterGetCurrentVersion;
+    </GetCurrentVersionDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GetCurrentVersion" DependsOnTargets="$(GetCurrentVersionDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeGetCurrentVersion" />
+  <Target Name="AfterGetCurrentVersion" />
+
+  <Target Name="CoreGetCurrentVersion">
+
+    <Message Text="Using AssemblyInfoFile  '$(AssemblyVersionFilePath)'" />
+
+    <Vestas.PlantApplications.MsbuildTask.AssemblyVersionInformation AssemblyInfoFile="$(AssemblyVersionFilePath)">
+      <Output TaskParameter="Major" PropertyName="MajorVersion" />
+      <Output TaskParameter="Minor" PropertyName="MinorVersion" />
+      <Output TaskParameter="Revision" PropertyName="RevisionVersion" />
+      <Output TaskParameter="Build" PropertyName="BuildVersion" />
+    </Vestas.PlantApplications.MsbuildTask.AssemblyVersionInformation>
+  </Target>
+
+</Project>

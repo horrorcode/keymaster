@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CalculateReleaseVersionDependsOn>
+      ValidateVersioningProperties;
+      BeforeCalculateReleaseVersion;
+      CoreCalculateReleaseVersion;
+      AfterCalculateReleaseVersion;
+    </CalculateReleaseVersionDependsOn>
+	<ReleaseType>Main release</ReleaseType>
+  </PropertyGroup>
+
+  <Target Name="CalculateReleaseVersion" DependsOnTargets="$(CalculateReleaseVersionDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCalculateReleaseVersion" />
+  <Target Name="AfterCalculateReleaseVersion" />
+
+  <Target Name="CoreCalculateReleaseVersion" >
+  
+	<PropertyGroup>
+		<OldVersion>$(MinorVersion)</OldVersion>
+		<RevisionVersion>0</RevisionVersion>
+		<BuildVersion>0</BuildVersion>
+	</PropertyGroup>
+  
+	<MSBuild.ExtensionPack.Science.Maths TaskAction="Add" Numbers="$(MinorVersion);1">
+		<Output PropertyName="MinorVersion" TaskParameter="Result"/>
+	</MSBuild.ExtensionPack.Science.Maths>				
+	
+	<Message Text="Old MinorVersion '$(OldVersion)' new MinorVersion '$(MinorVersion)'" />
+
+  </Target>
+</Project>

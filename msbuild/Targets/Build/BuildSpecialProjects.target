@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <BuildSpecialProjectsDependsOn>
+      PrepareSpecialProjects;
+	    GetBuildDetails;
+      CleanBuildSpecialProjectsArtefacts;
+      CreateBuildSpecialProjectsArtefacts;
+      BeforeBuildSpecialProjects;
+      CoreBuildSpecialProjects;
+      AfterBuildSpecialProjects;
+	    WriteBuildDetails;
+    </BuildSpecialProjectsDependsOn>
+  </PropertyGroup>
+
+  <Target Name="BuildSpecialProjects" DependsOnTargets="$(BuildSpecialProjectsDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeBuildSpecialProjects" />
+  <Target Name="AfterBuildSpecialProjects" />
+
+  <Target Name="CoreBuildSpecialProjects" >
+
+    <Message Text="Building SpecialProjects '%(SpecialProjects.Identity)' SpecialProjects.SpecialProjectsBuildProperties: '%(SpecialProjects.SpecialProjectsBuildProperties)  SpecialProjectsBuildProperties: '$(SpecialProjectsBuildProperties)'"/>
+    <Message Text="Building SpecialProjects '%(SpecialProjects.Identity)' with properties: '%(SpecialProjects.SpecialProjectsBuildProperties)'"  Condition="%(SpecialProjects.SpecialProjectsBuildProperties) !=''"/>
+    <Message Text="Building SpecialProjects '%(SpecialProjects.Identity)' with properties: '$(SpecialProjectsBuildProperties)'"  Condition="$(SpecialProjectsBuildProperties) !='' AND %(SpecialProjects.SpecialProjectsBuildProperties) == ''"/>
+	<Message Text="Build target = '%(SpecialProjects.BuildTarget)'"/>
+    
+    <MSBuild 
+      Projects="%(SpecialProjects.Identity)" 
+      Properties="$(SpecialProjectsBuildProperties); OutputPath=%(SpecialProjects.WorkingDirectoryPath);"
+      Targets="ReBuild"
+      Condition="$(SpecialProjectsBuildProperties) != '' AND %(SpecialProjects.SpecialProjectsBuildProperties) == '' AND %(SpecialProjects.BuildTarget) == ''"/>
+
+    <MSBuild 
+      Projects="%(SpecialProjects.Identity)" 
+      Properties="$(SpecialProjectsBuildProperties); 
+	  OutputPath=%(SpecialProjects.WorkingDirectoryPath);"
+      Targets="%(SpecialProjects.BuildTarget)"
+      Condition="$(SpecialProjectsBuildProperties) != '' AND %(SpecialProjects.SpecialProjectsBuildProperties) == '' AND %(SpecialProjects.BuildTarget) != ''"/>	  
+	  
+    <MSBuild
+      Projects="%(SpecialProjects.Identity)"
+      Properties="%(SpecialProjects.SpecialProjectsBuildProperties); OutputPath=%(SpecialProjects.WorkingDirectoryPath);"
+      Targets="ReBuild" 
+      Condition="%(SpecialProjects.SpecialProjectsBuildProperties) != '' AND %(SpecialProjects.BuildTarget) == ''"/>
+    
+	
+    <MSBuild	
+      Projects="%(SpecialProjects.Identity)"
+      Properties="%(SpecialProjects.SpecialProjectsBuildProperties); OutputPath=%(SpecialProjects.WorkingDirectoryPath);"
+      Targets="%(SpecialProjects.BuildTarget)" 
+      Condition="%(SpecialProjects.SpecialProjectsBuildProperties) != '' AND %(SpecialProjects.BuildTarget) != ''"/>
+    
+	<Message Text="Build target = '%(SpecialProjects.BuildTarget)'"/>
+  </Target>
+  
+</Project>

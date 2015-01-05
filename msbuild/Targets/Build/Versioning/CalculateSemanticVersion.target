@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CalculateSemanticVersionDependsOn>
+	  CalculateFullVersion;
+      BeforeCalculateSemanticVersion;
+      CoreCalculateSemanticVersion;
+      AfterCalculateSemanticVersion;
+    </CalculateSemanticVersionDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CalculateSemanticVersion" DependsOnTargets="$(CalculateSemanticVersionDependsOn)" />
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCalculateSemanticVersion" />
+  <Target Name="AfterCalculateSemanticVersion" />
+
+  <Target Name="CoreCalculateSemanticVersion">
+
+    <PropertyGroup>
+      <SemanticVersion>$(MajorVersion).$(MinorVersion).$(RevisionVersion)</SemanticVersion>
+    </PropertyGroup>
+
+	<Message Text="The calculated SemanticVersion is now $(SemanticVersion)" />
+  </Target>
+
+</Project>

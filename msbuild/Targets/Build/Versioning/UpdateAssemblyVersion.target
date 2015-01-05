@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <UpdateAssemblyVersionDependsOn>
+      CleanAssemblyInfoArtefacts;
+      CreateAssemblyInfoArtefacts;
+      BeforeUpdateAssemblyVersion;
+      CoreUpdateAssemblyVersion;
+      AfterUpdateAssemblyVersion;
+    </UpdateAssemblyVersionDependsOn>
+  </PropertyGroup>
+
+  <Target Name="UpdateAssemblyVersion" DependsOnTargets="$(UpdateAssemblyVersionDependsOn)" />
+
+  <!-- Targets can be overwritten by the user -->
+  <Target Name="BeforeUpdateAssemblyVersion" />
+  <Target Name="AfterUpdateAssemblyVersion" />
+
+  <Target Name="CoreUpdateAssemblyVersion">
+
+    <Error ContinueOnError="false" Text="The assembly version file path was not specified" Condition="$(AssemblyVersionFilePath) == ''" />
+    <Error ContinueOnError="false" Text="The assembly version file was not found at locatation '$(AssemblyVersionFilePath)'" Condition="!Exists('$(AssemblyVersionFilePath)')" />
+    <Error ContinueOnError="false" Text="The Semantic version was not specified" Condition="$(FullVersion) == ''" />
+
+    <CreateItem Include="$(AssemblyVersionFilePath)">
+      <Output TaskParameter="Include" ItemName="AssemblyInfos"/>
+    </CreateItem>
+
+    <MSBuild.Community.Tasks.FileUpdate
+			Files="@(AssemblyInfos)"
+			Regex="\[\s*assembly\s*:\s*AssemblyVersion\s*\(\s*&quot;[\d\.\*]+&quot;\s*\)\s*\]"
+			ReplacementText="[assembly: AssemblyVersion(&quot;$(FullVersion)&quot;)]"
+			/>
+    <MSBuild.Community.Tasks.FileUpdate
+				Files="@(AssemblyInfos)"
+				Regex="\[\s*assembly\s*:\s*AssemblyFileVersion\s*\(\s*&quot;[\d\.\*]+&quot;\s*\)\s*\]"
+				ReplacementText="[assembly: AssemblyFileVersion(&quot;$(FileVersion)&quot;)]"
+			/>
+    <MSBuild.Community.Tasks.FileUpdate
+        Files="@(AssemblyInfos)"
+        Regex="\[assembly:\sAssemblyInformationalVersion\(&quot;.+\&quot;\)\]"
+        ReplacementText="[assembly: AssemblyInformationalVersion(&quot;$(InformationalVersion)&quot;)]"
+			/>
+
+    <Message Text="Updating assembly '$(AssemblyVersionFilePath)' version: $(FullVersion)" />
+
+  </Target>
+
+</Project>

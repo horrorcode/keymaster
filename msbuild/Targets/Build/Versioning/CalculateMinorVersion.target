@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CalculateMinorVersionDependsOn>
+      BeforeCalculateMinorVersion;
+      CoreCalculateMinorVersion;
+      AfterCalculateMinorVersion;
+    </CalculateMinorVersionDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CalculateMinorVersion" DependsOnTargets="$(CalculateMinorVersionDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeCalculateMinorVersion" />
+  <Target Name="AfterCalculateMinorVersion" />
+
+  <Target Name="CoreCalculateMinorVersion" />
+  
+</Project>

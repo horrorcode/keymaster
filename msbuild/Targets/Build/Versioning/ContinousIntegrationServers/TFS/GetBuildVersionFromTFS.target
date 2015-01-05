@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <GetBuildVersionFromTFSDependsOn>
+      BeforeGetBuildVersionFromTFS;
+      CoreGetBuildVersionFromTFS;
+      AfterGetBuildVersionFromTFS;
+    </GetBuildVersionFromTFSDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GetBuildVersionFromTFS" DependsOnTargets="$(GetBuildVersionFromTFSDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeGetBuildVersionFromTFS" />
+  <Target Name="AfterGetBuildVersionFromTFS" />
+
+  <Target Name="CoreGetBuildVersionFromTFS" >
+
+    <PropertyGroup>
+      <!-- To be injected by TFS -->
+      <BuildVersion>$(BUILD_NUMBER)</BuildVersion>
+    </PropertyGroup>
+
+  </Target>
+  
+</Project>

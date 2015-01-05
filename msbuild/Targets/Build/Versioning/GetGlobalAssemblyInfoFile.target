@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <GetGlobalAssemblyInfoFileDependsOn>
+      BeforeGetGlobalAssemblyInfoFile;
+      CoreGetGlobalAssemblyInfoFile;
+      AfterGetGlobalAssemblyInfoFile;
+    </GetGlobalAssemblyInfoFileDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GetGlobalAssemblyInfoFile" >
+
+  </Target>
+
+
+  <Target Name="GetGetGlobalAssemblyInfoFile" DependsOnTargets="$(GetGlobalAssemblyInfoFileDependsOn)"/>
+
+  <!-- To be overriden by the user -->
+  <Target Name="BeforeGetGlobalAssemblyInfoFile" />
+  <Target Name="AfterGetGlobalAssemblyInfoFile" />
+
+  <Target Name="CoreGetGlobalAssemblyInfoFile">
+    <PropertyGroup>
+      <AssemblyVersionFilePath Condition="Exists('$(GlobalRootPath)GlobalAssemblyInfo.cs')">$(GlobalRootPath)GlobalAssemblyInfo.cs</AssemblyVersionFilePath>
+      <AssemblyVersionFilePath Condition="Exists('$(SolutionsPath)GlobalAssemblyInfo.cs')">$(SolutionsPath)GlobalAssemblyInfo.cs</AssemblyVersionFilePath>
+    </PropertyGroup>
+    <Error Text="The global assembly file was not found" Condition="!Exists($(AssemblyVersionFilePath))" />
+    <Message Text="The path to the global assembly file is '$(AssemblyVersionFilePath)'" Condition="Exists($(AssemblyVersionFilePath))"/>
+  </Target>
+
+</Project>

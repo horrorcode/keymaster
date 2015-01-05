@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="Versioning\GetGlobalAssemblyInfoFile.target"/>
+  <Import Project="Versioning\GetCurrentVersion.target"/>
+  <Import Project="Versioning\CalculateBranchServiceVersion.target"/>
+  <Import Project="Versioning\CalculateReleaseVersion.target"/>
+  <Import Project="Versioning\CalculateBuildVersion.target"/>
+  <Import Project="Versioning\CalculateRevisionVersion.target"/>
+  <Import Project="Versioning\CalculateMajorVersion.target"/>
+  <Import Project="Versioning\CalculateMinorVersion.target"/>
+  <Import Project="Versioning\CalculateReleaseServiceVersion.target"/>
+  
+  
+  <Import Project="Versioning\ContinousIntegrationServers\Hudson\GetBuildVersionFromHudson.target"/>
+  <Import Project="Versioning\ContinousIntegrationServers\TFS\GetBuildVersionFromTFS.target"/>
+  <Import Project="Versioning\ContinousIntegrationServers\TeamCity\GetBuildVersionFromTeamCity.target"/>
+  <Import Project="Versioning\ContinousIntegrationServers\CCNET\GetBuildVersionFromCCNET.target"/>
+
+  <Import Project="Versioning\VersionControlServers\Svn\GetSvnRevisionVersion.target"/>
+  <Import Project="Versioning\VersionControlServers\Svn\FormatSvnRevisionVersion.target"/>
+  <Import Project="Versioning\VersionControlServers\Svn\UseSvnRevisionAsCurrentRevisionVersion.target"/>
+  <Import Project="Versioning\VersionControlServers\Git\GetGitRevisionVersion.target"/>
+  <Import Project="Versioning\VersionControlServers\Git\FormatGitRevisionVersion.target"/>
+  <Import Project="Versioning\VersionControlServers\TFS\FormatTFSRevisionVersion.target"/>
+  <Import Project="Versioning\VersionControlServers\TFS\GetTFSRevisionVersion.target"/>
+  <Import Project="Versioning\VersionControlServers\TFS\UseTFSRevisionAsCurrentRevisionVersion.target"/>
+
+  <Import Project="Versioning\ValidateVersioningProperties.target"/>
+  <Import Project="Versioning\CalculateSemanticVersion.target"/>
+  <Import Project="Versioning\CalculateFileVersion.target"/>
+  <Import Project="Versioning\CalculateAdditionalVersionInformation.target"/>
+  <Import Project="Versioning\CalculateInformationalVersion.target"/>
+  <Import Project="Versioning\CalculateFullVersion.target"/>  
+  <Import Project="Versioning\UpdateAssemblyVersion.target"/>
+  
+  
+
+  <Import Project="Cleaning\CleanArtefactFolders.targeet"/>
+  <Import Project="Cleaning\Clean.target"/>
+
+  <Import Project="CreateArtefactFolders.target"/>
+
+  <Import Project="Versioning\CleanAssemblyInfoArtefacts.target" />
+  <Import Project="Versioning\CreateAssemblyInfoArtefacts.target" />
+  <Import Project="Versioning\SetAssemblyVersion.target" />
+  <Import Project="Versioning\SetAssemblyInfo.target" />
+
+  <Import Project="Build.target"/>
+  <Import Project="CleanBuildSpecialProjectsArtefacts.target"/>
+  <Import Project="CreateBuildSpecialProjectsArtefacts.target"/>
+  <Import Project="PrepareSpecialProjects.target"/>
+  <Import Project="BuildSpecialProjects.target"/>
+
+ <!--<Import Project="Borland\Borland.Cpp.Targets" /> -->
+
+
+</Project>
