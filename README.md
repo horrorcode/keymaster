@@ -11,10 +11,7 @@ SlickRun is a free floating command line utility for Windows made by Eric Lawren
 Keymaster is actual the same thing, so why bother to do it one more time? Well i have been us Eric Lawrence SlickRun for Years now and i just love the concept, but SlickRun is dead, nothing new is added and i have a fairly amount of troubles with it, which came along with windows 8, so there you have it. I what to use Eric Lawrence concept and make that project open source.
  
 ### Authors and Contributors
-If you feel that you would like to contribute send me an email @renewsorensen so we can discuss what and how :-) or you can send a mail to the team targetprocess@egevej44.dk
-
-
-You can @mention a GitHub username to generate a link to their profile. The resulting `<a>` element will link to the contributor's GitHub Profile. 
+If you feel that you would like to contribute send me an email so we can discuss what and how :-) or you can send a mail to the team targetprocess@egevej44.dk
 
 ### Support or Contact
 You can contact the team through targetprocess@egevej44.dk
