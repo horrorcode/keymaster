@@ -63,12 +63,17 @@
 	    <FxCopTargetAssemblies Include="$(BuildingPath)\Horror.Keywords.exe" Exclude="$(BuildingPath)\*Test.dll" />
     </ItemGroup>
   </Target>
+  
+  <Target Name="RestoreNugetPackage">
+	<Exec Command="$(NugetRunner) restore $(SolutionsPath)\$(SolutionsName).sln" />
+  </Target>
 
   <PropertyGroup>
     <MyBuildDependsOn>
       ValidateSettings;
       Clean;
       CreateArtefactFolders;
+      RestoreNugetPackage;
       CoreBuild;
       SettingTestingAssemblies;
       CoreSettingInstrumentationAssemblies;
