@@ -58,7 +58,6 @@
   </Style>
 
 
-
   <Style TargetType="{x:Type ContextMenu}">
     <Setter Property="SnapsToDevicePixels"
           Value="True" />

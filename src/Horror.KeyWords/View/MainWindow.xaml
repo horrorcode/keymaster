@@ -23,11 +23,15 @@
     <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}" Mode="TwoWay"/>
   </Window.Visibility>
 
+  <Window.Background>
+    <SolidColorBrush Opacity="0.5" />
+  </Window.Background>
+
   <Grid x:Name="grid">
-    <Border Background="{Binding MasterKeywords.Background}" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" >
-      <Border.Effect>
+    <Border BorderBrush="White" BorderThickness="1 1 1 0" CornerRadius="20,20,20,20" >
+      <!--<Border.Effect>
         <DropShadowEffect BlurRadius="16" ShadowDepth="0" Opacity="0.5" />
-      </Border.Effect>
+      </Border.Effect>-->
       
       <ComboBox ItemsSource="{Binding MasterKeywords.MagicWords}"                  
                 Background="{Binding MasterKeywords.Background}" 

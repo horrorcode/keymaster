@@ -167,6 +167,7 @@ namespace Horror.Keywords
     /// </summary>
     /// <param name="keyEvent">Keyboard event</param>
     /// <param name="vkCode">VKCode</param>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2241:Provide correct arguments to formatting methods")]
     void KeyPressCallbackAsync(NativeMethods.KeyEvent keyEvent, int vkCode)
     {
       Key key = System.Windows.Input.KeyInterop.KeyFromVirtualKey(vkCode);
