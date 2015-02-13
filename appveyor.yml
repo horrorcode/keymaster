@@ -1,5 +1,34 @@
 version: 0.1.{build}
 skip_tags: true
+assembly_info:
+  patch: true
+  file: GlobalAssembly.cs
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
 build:
-  project: BuildSolution.proj
+  project: src\Horror.KeyMaster.sln
   verbosity: normal
+test:
+  assemblies: '*Test.dll'
+on_success:
+- ps: >-
+    $server = 'renewsorensen.tpondemand.com'
+
+    $token = 'token=MTpERkQwRkVDMTdBMEJFQjBBREI3QzQxMzlFNjZBNjU0Mw=='
+
+    $url = 'https://' + ${server} + '/api/v1/Builds/?' + ${token}
+
+
+    Write-Host 'What is my url ' $url
+
+    $contentType = 'application/json'
+
+    $body = '{Name:"success", Project:{Id:189}}'
+
+    $method = 'POST'
+
+
+    Invoke-RestMethod -Uri $url -ContentType $contentType -Method $method -Body $body
+
+    # end of script
