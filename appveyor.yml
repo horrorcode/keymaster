@@ -20,11 +20,29 @@ on_success:
     $url = 'https://' + ${server} + '/api/v1/Builds/?' + ${token}
 
 
-    Write-Host 'What is my url ' $url
-
     $contentType = 'application/json'
 
     $body = '{Name:"success", Project:{Id:189}}'
+
+    $method = 'POST'
+
+
+    Invoke-RestMethod -Uri $url -ContentType $contentType -Method $method -Body $body
+
+    # end of script
+on_failure:
+- ps: >-
+    $server = 'renewsorensen.tpondemand.com'
+
+    $token = 'token=MTpERkQwRkVDMTdBMEJFQjBBREI3QzQxMzlFNjZBNjU0Mw=='
+
+    $url = 'https://' + ${server} + '/api/v1/Builds/?' + ${token}
+
+
+
+    $contentType = 'application/json'
+
+    $body = '{Name:"{version} failed", Project:{Id:189}}'
 
     $method = 'POST'
 
